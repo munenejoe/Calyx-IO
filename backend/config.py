@@ -3,6 +3,7 @@ import os
 from pathlib import Path
 
 from dotenv import load_dotenv
+from pydantic import field_validator
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -17,6 +18,13 @@ def _split_csv(value: str) -> list[str]:
 
 
 class Settings:
+    CORS_ORIGINS: list[str] = []
+    @field_validator("CORS_ORIGINS", mode="before")
+    @classmethod
+    def parse_origins(cls, value):
+        if isinstance(value, str):
+            return [v.strip() for v in value.split(",")]
+
     APP_NAME: str = os.getenv("APP_NAME", "Calyx.io API")
     APP_VERSION: str = os.getenv("APP_VERSION", "0.1.0")
     APP_DESCRIPTION: str = os.getenv(

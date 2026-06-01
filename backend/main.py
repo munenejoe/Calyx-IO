@@ -1,14 +1,24 @@
 import os
+
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse, Response
+from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
 from slowapi.util import get_remote_address
 
-from backend.api.routes import catalogue, feedback, health, identify, search, species
+from backend.api.routes import (
+    catalogue,
+    feedback,
+    health,
+    identify,
+    search,
+    species,
+)
+
+from backend.config import settings
 from backend.main_state import vision
 
 
@@ -18,31 +28,19 @@ app = FastAPI(
     version="1.0",
 )
 
+origins = settings.CORS_ORIGINS
 
-# FIX CORS ORIGINS (ADD YOUR FRONTEND URLS HERE)
-origins = [
-    "http://localhost:8080",
-    "http://127.0.0.1:8080",
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-]
+print("✅ CORS origins:", origins)
 
 
 # ADD CORS (CORRECTLY)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=settings.CORS_ORIGINS,
     allow_credentials=True, 
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-
-# 🔥 FORCE HANDLE OPTIONS (PREVENT 405)
-@app.options("/{full_path:path}")
-async def preflight_handler():
-    return Response(status_code=200)
-
 
 # 🔥 DEBUG IMAGE FOLDER
 DEBUG_DIR = "/tmp/calyx_debug"
