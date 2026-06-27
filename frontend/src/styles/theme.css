@@ -1,0 +1,95 @@
+/* ═══════════════════════════════════════════════════════
+   CALYX FLORA — Centralized Theme System
+   Brand palette and semantic tokens for all pages
+═══════════════════════════════════════════════════════ */
+
+:root {
+  /* ── Brand Palette ── */
+  --calyx-moss:          #515932;
+  --calyx-rustwood:      #863A18;
+  --calyx-golden-oat:    #F2C48D;
+  --calyx-muted-cream:   #E8E1D6;
+
+  /* ── Alpha variants: Evergreen Moss ── */
+  --calyx-moss-05:    rgba(81, 89, 50, 0.05);
+  --calyx-moss-10:    rgba(81, 89, 50, 0.10);
+  --calyx-moss-15:    rgba(81, 89, 50, 0.15);
+  --calyx-moss-20:    rgba(81, 89, 50, 0.20);
+  --calyx-moss-30:    rgba(81, 89, 50, 0.30);
+  --calyx-moss-40:    rgba(81, 89, 50, 0.40);
+  --calyx-moss-60:    rgba(81, 89, 50, 0.60);
+
+  /* ── Alpha variants: Golden Oat ── */
+  --calyx-golden-05:  rgba(242, 196, 141, 0.05);
+  --calyx-golden-08:  rgba(242, 196, 141, 0.08);
+  --calyx-golden-12:  rgba(242, 196, 141, 0.12);
+  --calyx-golden-20:  rgba(242, 196, 141, 0.20);
+  --calyx-golden-35:  rgba(242, 196, 141, 0.35);
+  --calyx-golden-55:  rgba(242, 196, 141, 0.55);
+  --calyx-golden-80:  rgba(242, 196, 141, 0.80);
+
+  /* ── Alpha variants: Rustwood ── */
+  --calyx-rust-08:    rgba(134, 58, 24, 0.08);
+  --calyx-rust-15:    rgba(134, 58, 24, 0.15);
+  --calyx-rust-25:    rgba(134, 58, 24, 0.25);
+
+  /* ── Alpha variants: Muted Cream ── */
+  --calyx-cream-08:   rgba(232, 225, 214, 0.08);
+  --calyx-cream-15:   rgba(232, 225, 214, 0.15);
+  --calyx-cream-30:   rgba(232, 225, 214, 0.30);
+  --calyx-cream-60:   rgba(232, 225, 214, 0.60);
+  --calyx-cream-80:   rgba(232, 225, 214, 0.80);
+
+  /* ── Page surfaces ── */
+  /* Primary page bg = Evergreen Moss — all non-home pages use this */
+  --calyx-page-bg:        #515932;
+  --calyx-page-bg-mid:    #4a5230;
+  --calyx-surface-dark:   rgba(81, 89, 50, 0.88);
+  --calyx-surface-mid:    rgba(74, 82, 48, 0.70);
+  /* Dark glass overlays still use near-black so glass panels remain legible */
+  --calyx-glass-dark:     rgba(11, 12, 8, 0.68);
+  --calyx-glass-mid:      rgba(17, 19, 11, 0.55);
+
+  /* ── Typography ── */
+  --calyx-text-primary:   rgba(232, 225, 214, 0.92);
+  --calyx-text-secondary: rgba(232, 225, 214, 0.55);
+  --calyx-text-muted:     rgba(232, 225, 214, 0.32);
+  --calyx-text-accent:    #F2C48D;
+  --calyx-text-accent-dim: rgba(242, 196, 141, 0.70);
+
+  /* ── Border tokens ── */
+  --calyx-border-subtle:  rgba(255, 255, 255, 0.06);
+  --calyx-border-soft:    rgba(255, 255, 255, 0.09);
+  --calyx-border-golden:  rgba(242, 196, 141, 0.15);
+  --calyx-border-golden-hover: rgba(242, 196, 141, 0.28);
+  --calyx-border-moss:    rgba(81, 89, 50, 0.35);
+
+  /* ── Shadow tokens ── */
+  --calyx-shadow-sm:      0 2px 12px rgba(0, 0, 0, 0.25);
+  --calyx-shadow-md:      0 6px 28px rgba(0, 0, 0, 0.35);
+  --calyx-shadow-lg:      0 16px 48px rgba(0, 0, 0, 0.45);
+  --calyx-shadow-golden:  0 0 24px rgba(242, 196, 141, 0.06);
+  --calyx-shadow-inset:   inset 0 1px 0 rgba(255, 255, 255, 0.06);
+
+  /* ── Spacing & radius ── */
+  --calyx-radius-sm:  8px;
+  --calyx-radius-md:  14px;
+  --calyx-radius-lg:  20px;
+  --calyx-radius-xl:  28px;
+
+  /* ── Blur strengths ── */
+  --calyx-blur-sm:    8px;
+  --calyx-blur-md:    16px;
+  --calyx-blur-lg:    28px;
+  --calyx-blur-xl:    48px;
+}
+
+/* ── Global keyframes needed by pages ── */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes calyx-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.45; }
+}

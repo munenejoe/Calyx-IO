@@ -1,0 +1,82 @@
+/* ═══════════════════════════════════════════════════════
+   CALYX FLORA — Homepage Design System
+   Injected alongside index.css; does not override global styles
+═══════════════════════════════════════════════════════ */
+
+/* ── Font imports (correct Google Fonts URL) ── */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap');
+
+/* ── CSS custom properties for homepage ── */
+:root {
+  --calyx-midnight:   #0d0d0d;
+  --calyx-golden:     #F2C48D;
+  --calyx-moss:       #515932;
+  --calyx-rustwood:   #863A18;
+  --calyx-cedar:      #593825;
+  --calyx-text:       rgba(255, 255, 255, 0.88);
+  --calyx-muted:      rgba(255, 255, 255, 0.35);
+}
+
+/* ── Scoped homepage reset ── */
+.calyx-homepage {
+  font-family: 'Cormorant Garamond', 'Georgia', serif;
+  background: var(--calyx-midnight);
+  color: var(--calyx-text);
+  overflow-x: hidden;
+}
+
+.calyx-homepage *,
+.calyx-homepage *::before,
+.calyx-homepage *::after {
+  box-sizing: border-box;
+}
+
+/* ── Smooth section entrance helper ── */
+.calyx-section-enter {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 1s ease, transform 1s ease;
+}
+.calyx-section-enter.visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ── Hero bouquet glow pulse ── */
+@keyframes bouquet-glow {
+  0%, 100% { filter: drop-shadow(0 40px 80px rgba(0,0,0,0.8)) drop-shadow(0 0 40px rgba(242,196,141,0.04)); }
+  50%       { filter: drop-shadow(0 40px 80px rgba(0,0,0,0.7)) drop-shadow(0 0 60px rgba(242,196,141,0.09)); }
+}
+
+.bouquet-glow {
+  animation: bouquet-glow 5s ease-in-out infinite;
+}
+
+/* ── Scrollbar (homepage only, webkit) ── */
+.calyx-homepage::-webkit-scrollbar { width: 4px; }
+.calyx-homepage::-webkit-scrollbar-track { background: var(--calyx-midnight); }
+.calyx-homepage::-webkit-scrollbar-thumb {
+  background: rgba(242,196,141,0.2);
+  border-radius: 2px;
+}
+.calyx-homepage::-webkit-scrollbar-thumb:hover {
+  background: rgba(242,196,141,0.4);
+}
+
+/* ── Three.js canvas cleanup ── */
+.calyx-homepage canvas {
+  display: block;
+}
+
+/* ── Prevent FOUC on navigation pills ── */
+.calyx-nav-pill {
+  will-change: backdrop-filter, background;
+}
+
+/* ── Focus visible for accessibility ── */
+.calyx-homepage a:focus-visible,
+.calyx-homepage button:focus-visible {
+  outline: 1px solid rgba(242,196,141,0.5);
+  outline-offset: 3px;
+  border-radius: 4px;
+}

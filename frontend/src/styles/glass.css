@@ -1,0 +1,240 @@
+/* ═══════════════════════════════════════════════════════
+   CALYX FLORA — Luxury Botanical Glass System
+   Reusable glassmorphic utility classes
+   Principles: soft blur · subtle transparency · premium shadows ·
+   rounded corners · Golden Oat accents · Evergreen Moss foundations
+═══════════════════════════════════════════════════════ */
+
+/* ── Base glass surface ── */
+.glass-surface {
+  background: rgba(11, 13, 7, 0.68);
+  backdrop-filter: blur(var(--calyx-blur-md));
+  -webkit-backdrop-filter: blur(var(--calyx-blur-md));
+  border: 1px solid var(--calyx-border-subtle);
+  box-shadow:
+    var(--calyx-shadow-md),
+    var(--calyx-shadow-inset);
+  border-radius: var(--calyx-radius-lg);
+}
+
+/* ── Moss-tinted glass panel (primary card surface) ── */
+.glass-panel {
+  background: linear-gradient(
+    145deg,
+    rgba(10, 12, 6, 0.80) 0%,
+    rgba(14, 17, 9, 0.72) 100%
+  );
+  backdrop-filter: blur(var(--calyx-blur-md));
+  -webkit-backdrop-filter: blur(var(--calyx-blur-md));
+  border: 1px solid var(--calyx-border-golden);
+  box-shadow:
+    var(--calyx-shadow-md),
+    var(--calyx-shadow-inset),
+    var(--calyx-shadow-golden);
+  border-radius: var(--calyx-radius-lg);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.glass-panel:hover {
+  border-color: var(--calyx-border-golden-hover);
+  box-shadow:
+    var(--calyx-shadow-lg),
+    var(--calyx-shadow-inset),
+    0 0 32px rgba(242, 196, 141, 0.08);
+}
+
+/* ── Subtle glass panel (secondary, sidebar) ── */
+.glass-panel-subtle {
+  background: rgba(11, 13, 7, 0.55);
+  backdrop-filter: blur(var(--calyx-blur-sm));
+  -webkit-backdrop-filter: blur(var(--calyx-blur-sm));
+  border: 1px solid var(--calyx-border-subtle);
+  box-shadow: var(--calyx-shadow-sm), var(--calyx-shadow-inset);
+  border-radius: var(--calyx-radius-lg);
+}
+
+/* ── Floating glass (used for elevated modals / overlays) ── */
+.glass-float {
+  background: rgba(9, 11, 6, 0.92);
+  backdrop-filter: blur(var(--calyx-blur-xl));
+  -webkit-backdrop-filter: blur(var(--calyx-blur-xl));
+  border: 1px solid var(--calyx-border-golden);
+  box-shadow:
+    var(--calyx-shadow-lg),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 0 40px rgba(0, 0, 0, 0.5);
+  border-radius: var(--calyx-radius-xl);
+}
+
+/* ── Pill glass (navigation / tags / badges) ── */
+.glass-pill {
+  background: var(--calyx-golden-08);
+  backdrop-filter: blur(var(--calyx-blur-sm));
+  -webkit-backdrop-filter: blur(var(--calyx-blur-sm));
+  border: 1px solid var(--calyx-border-golden);
+  border-radius: 9999px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2), var(--calyx-shadow-inset);
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.glass-pill:hover {
+  background: var(--calyx-golden-12);
+  border-color: var(--calyx-border-golden-hover);
+}
+
+/* ── Moss pill (secondary tag variant) ── */
+.glass-pill-moss {
+  background: var(--calyx-moss-10);
+  backdrop-filter: blur(var(--calyx-blur-sm));
+  -webkit-backdrop-filter: blur(var(--calyx-blur-sm));
+  border: 1px solid var(--calyx-border-moss);
+  border-radius: 9999px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2), var(--calyx-shadow-inset);
+}
+
+/* ── Icon glass circle ── */
+.glass-icon {
+  background: var(--calyx-moss-15);
+  border: 1px solid var(--calyx-border-moss);
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--calyx-shadow-sm);
+}
+
+/* ── Divider ── */
+.glass-divider {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--calyx-border-golden),
+    transparent
+  );
+  border: none;
+  margin: 0;
+}
+
+/* ── Section header accent line ── */
+.glass-section-accent::before {
+  content: '';
+  display: block;
+  width: 32px;
+  height: 1.5px;
+  background: var(--calyx-golden-oat);
+  border-radius: 2px;
+  margin-bottom: 0.5rem;
+  opacity: 0.6;
+}
+
+/* ── Input field ── */
+.glass-input {
+  background: rgba(9, 11, 6, 0.62);
+  backdrop-filter: blur(var(--calyx-blur-sm));
+  border: 1px solid var(--calyx-border-soft);
+  border-radius: var(--calyx-radius-md);
+  color: var(--calyx-text-primary);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  outline: none;
+}
+
+.glass-input::placeholder {
+  color: var(--calyx-text-muted);
+}
+
+.glass-input:focus {
+  border-color: var(--calyx-border-golden);
+  box-shadow: 0 0 0 3px rgba(242, 196, 141, 0.06);
+}
+
+/* ── Button: Golden Oat primary ── */
+.glass-btn-primary {
+  background: linear-gradient(135deg, rgba(242, 196, 141, 0.18), rgba(242, 196, 141, 0.10));
+  border: 1px solid var(--calyx-border-golden);
+  border-radius: 9999px;
+  color: var(--calyx-golden-oat);
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: var(--calyx-shadow-sm), var(--calyx-shadow-inset);
+  backdrop-filter: blur(var(--calyx-blur-sm));
+}
+
+.glass-btn-primary:hover {
+  background: linear-gradient(135deg, rgba(242, 196, 141, 0.26), rgba(242, 196, 141, 0.16));
+  border-color: var(--calyx-border-golden-hover);
+  box-shadow: var(--calyx-shadow-md), 0 0 16px rgba(242, 196, 141, 0.10);
+  transform: translateY(-1px);
+}
+
+.glass-btn-primary:active {
+  transform: translateY(0);
+}
+
+/* ── Button: Outline ghost ── */
+.glass-btn-ghost {
+  background: transparent;
+  border: 1px solid var(--calyx-border-soft);
+  border-radius: 9999px;
+  color: var(--calyx-text-secondary);
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.glass-btn-ghost:hover {
+  border-color: var(--calyx-border-golden);
+  color: var(--calyx-text-accent);
+  background: var(--calyx-golden-05);
+}
+
+/* ── Page container: Evergreen Moss botanical layout ── */
+.calyx-page {
+  min-height: 100dvh;
+  background:
+    radial-gradient(ellipse 90% 55% at 50% -5%,  rgba(81, 89, 50, 0.55) 0%, transparent 65%),
+    radial-gradient(ellipse 70% 45% at 15% 100%, rgba(89, 56, 37, 0.30) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 85% 80%,  rgba(134, 58, 24, 0.18) 0%, transparent 55%),
+    var(--calyx-page-bg);
+  color: var(--calyx-text-primary);
+}
+
+/* ── Page content wrapper ── */
+.calyx-content {
+  padding-top: 6rem;
+  padding-bottom: 4rem;
+}
+
+/* ── Scroll fade-in utility ── */
+.calyx-fade-in {
+  animation: calyx-fade-up 0.6s ease-out both;
+}
+
+@keyframes calyx-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Loading spinner accent ── */
+.calyx-spinner {
+  border-color: var(--calyx-border-subtle);
+  border-top-color: var(--calyx-golden-oat);
+}
+
+/* ── Error state ── */
+.glass-error {
+  background: rgba(134, 58, 24, 0.10);
+  border: 1px solid rgba(134, 58, 24, 0.25);
+  border-radius: var(--calyx-radius-lg);
+}

@@ -1,22 +1,31 @@
+/**
+ * CatalogueFilters.tsx — Phase 3B Glass Botanical Filters
+ *
+ * All controls rebuilt as pure inline-styled glass elements.
+ * No external CSS class dependencies (filter-glass-pill, filter-label, etc. removed).
+ * Uses only the glass.css base utilities that are guaranteed to exist.
+ */
 import { Search, X, SlidersHorizontal } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { Badge } from "@/components/ui/badge";
 import type { FilterOption } from "@/lib/api";
 
+// ── Typography constants ──────────────────────────────────────────────────────
+const serif  = "'Cormorant Garamond', Georgia, serif";
+const sansUI = "'Inter', sans-serif";
+
 const SORT_OPTIONS = [
-  { value: "name", label: "Alphabetical" },
-  { value: "popularity", label: "Most Popular" },
-  { value: "recent", label: "Recently Added" },
+  { value: "name",       label: "A – Z"    },
+  { value: "popularity", label: "Popular"  },
+  { value: "recent",     label: "Recent"   },
 ];
 
 const COLOR_OPTIONS = [
-  { value: "red", label: "Red", className: "bg-red-500" },
-  { value: "pink", label: "Pink", className: "bg-pink-400" },
-  { value: "white", label: "White", className: "bg-white border border-border" },
-  { value: "yellow", label: "Yellow", className: "bg-yellow-400" },
-  { value: "orange", label: "Orange", className: "bg-orange-500" },
-  { value: "purple", label: "Purple", className: "bg-purple-500" },
-  { value: "blue", label: "Blue", className: "bg-blue-500" },
+  { value: "red",    label: "Red",    dot: "#ef4444" },
+  { value: "pink",   label: "Pink",   dot: "#f472b6" },
+  { value: "white",  label: "White",  dot: "#e8e1d6", border: true },
+  { value: "yellow", label: "Yellow", dot: "#facc15" },
+  { value: "orange", label: "Orange", dot: "#f97316" },
+  { value: "purple", label: "Purple", dot: "#a855f7" },
+  { value: "blue",   label: "Blue",   dot: "#3b82f6" },
 ];
 
 interface CatalogueFiltersProps {
@@ -33,6 +42,67 @@ interface CatalogueFiltersProps {
   onClearAll: () => void;
 }
 
+// ── Primitive: section label ──────────────────────────────────────────────────
+function FilterLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <p
+      style={{
+        fontFamily: sansUI,
+        fontSize: "0.6rem",
+        fontWeight: 500,
+        letterSpacing: "0.22em",
+        textTransform: "uppercase",
+        color: "rgba(242,196,141,0.50)",
+        marginBottom: "0.75rem",
+      }}
+    >
+      {children}
+    </p>
+  );
+}
+
+// ── Primitive: glass toggle pill ──────────────────────────────────────────────
+function FilterPill({
+  active,
+  onClick,
+  children,
+}: {
+  active: boolean;
+  onClick: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <button
+      onClick={onClick}
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        gap: "0.4rem",
+        padding: "0.3rem 0.85rem",
+        borderRadius: "9999px",
+        fontFamily: sansUI,
+        fontSize: "0.65rem",
+        fontWeight: 500,
+        letterSpacing: "0.1em",
+        textTransform: "uppercase",
+        cursor: "pointer",
+        transition: "all 0.22s ease",
+        whiteSpace: "nowrap",
+        background: active ? "rgba(242,196,141,0.14)" : "rgba(255,255,255,0.04)",
+        border: active
+          ? "1px solid rgba(242,196,141,0.30)"
+          : "1px solid rgba(255,255,255,0.08)",
+        color: active ? "rgba(242,196,141,0.95)" : "rgba(232,225,214,0.50)",
+        boxShadow: active
+          ? "0 0 12px rgba(242,196,141,0.06), inset 0 1px 0 rgba(255,255,255,0.06)"
+          : "inset 0 1px 0 rgba(255,255,255,0.03)",
+      }}
+    >
+      {children}
+    </button>
+  );
+}
+
 export function CatalogueFilters({
   searchValue,
   onSearchChange,
@@ -47,108 +117,229 @@ export function CatalogueFilters({
   onClearAll,
 }: CatalogueFiltersProps) {
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <SlidersHorizontal className="w-5 h-5 text-primary" />
-          <h3 className="font-serif text-lg font-semibold text-foreground">Filters</h3>
-          {activeFilterCount > 0 && (
-            <Badge className="bg-primary text-primary-foreground text-xs px-2 py-0.5">
-              {activeFilterCount}
-            </Badge>
-          )}
-        </div>
-        {activeFilterCount > 0 && (
-          <button
-            onClick={onClearAll}
-            className="text-sm text-accent-foreground hover:text-primary transition-colors flex items-center gap-1"
-          >
-            <X className="w-3.5 h-3.5" />
-            Clear All
-          </button>
-        )}
-      </div>
+    <div style={{ fontFamily: sansUI }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: "1.75rem" }}>
 
-      {/* Search */}
-      <div>
-        <label className="text-sm font-medium text-foreground mb-2 block">Search</label>
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-          <input
-            type="text"
-            value={searchValue}
-            onChange={(e) => onSearchChange(e.target.value)}
-            placeholder="Search flowers..."
-            className="w-full pl-9 pr-4 py-2.5 rounded-lg bg-background border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all text-sm"
-          />
-          {searchValue && (
+        {/* ── Header ── */}
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
+            <SlidersHorizontal
+              style={{ width: "14px", height: "14px", color: "rgba(242,196,141,0.55)", flexShrink: 0 }}
+            />
+            <span style={{ fontFamily: serif, fontSize: "1.15rem", fontWeight: 600, color: "rgba(232,225,214,0.92)", letterSpacing: "0.01em" }}>
+              Filters
+            </span>
+            {activeFilterCount > 0 && (
+              <span
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  minWidth: "1.3rem",
+                  height: "1.3rem",
+                  padding: "0 0.3rem",
+                  borderRadius: "9999px",
+                  background: "rgba(242,196,141,0.12)",
+                  border: "1px solid rgba(242,196,141,0.24)",
+                  color: "rgba(242,196,141,0.90)",
+                  fontSize: "0.6rem",
+                  fontWeight: 600,
+                  letterSpacing: "0.06em",
+                }}
+              >
+                {activeFilterCount}
+              </span>
+            )}
+          </div>
+
+          {activeFilterCount > 0 && (
             <button
-              onClick={() => onSearchChange("")}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+              onClick={onClearAll}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "0.3rem",
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                fontSize: "0.62rem",
+                fontFamily: sansUI,
+                fontWeight: 500,
+                letterSpacing: "0.12em",
+                textTransform: "uppercase",
+                color: "rgba(242,196,141,0.45)",
+                transition: "color 0.2s ease",
+                padding: 0,
+              }}
+              onMouseEnter={e => ((e.currentTarget as HTMLButtonElement).style.color = "rgba(242,196,141,0.90)")}
+              onMouseLeave={e => ((e.currentTarget as HTMLButtonElement).style.color = "rgba(242,196,141,0.45)")}
             >
-              <X className="w-3.5 h-3.5" />
+              <X style={{ width: "11px", height: "11px" }} />
+              Clear
             </button>
           )}
         </div>
-      </div>
 
-      {/* Sort */}
-      <div>
-        <label className="text-sm font-medium text-foreground mb-2 block">Sort By</label>
-        <select
-          value={sortBy}
-          onChange={(e) => onSortChange(e.target.value)}
-          className="w-full px-3 py-2.5 rounded-lg bg-background border border-border text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all text-sm appearance-none cursor-pointer"
-        >
-          {SORT_OPTIONS.map((opt) => (
-            <option key={opt.value} value={opt.value}>
-              {opt.label}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      {/* Color chips */}
-      <div>
-        <label className="text-sm font-medium text-foreground mb-3 block">Colors</label>
-        <div className="flex flex-wrap gap-2">
-          {COLOR_OPTIONS.map((color) => {
-            const isSelected = selectedColors.includes(color.value);
-            return (
+        {/* ── Search input ── */}
+        <div>
+          <FilterLabel>Search</FilterLabel>
+          <div style={{ position: "relative" }}>
+            <Search
+              style={{
+                position: "absolute",
+                left: "0.8rem",
+                top: "50%",
+                transform: "translateY(-50%)",
+                width: "13px",
+                height: "13px",
+                color: "rgba(255,255,255,0.28)",
+                pointerEvents: "none",
+              }}
+            />
+            <input
+              type="text"
+              value={searchValue}
+              onChange={e => onSearchChange(e.target.value)}
+              placeholder="Search flowers…"
+              style={{
+                width: "100%",
+                paddingLeft: "2.25rem",
+                paddingRight: searchValue ? "2.25rem" : "0.85rem",
+                paddingTop: "0.6rem",
+                paddingBottom: "0.6rem",
+                background: "rgba(14,16,10,0.55)",
+                backdropFilter: "blur(8px)",
+                border: "1px solid rgba(255,255,255,0.07)",
+                borderRadius: "10px",
+                color: "rgba(232,225,214,0.88)",
+                fontSize: "0.82rem",
+                fontFamily: sansUI,
+                outline: "none",
+                transition: "border-color 0.22s ease, box-shadow 0.22s ease",
+              }}
+              onFocus={e => {
+                (e.target as HTMLInputElement).style.borderColor = "rgba(242,196,141,0.22)";
+                (e.target as HTMLInputElement).style.boxShadow = "0 0 0 3px rgba(242,196,141,0.05)";
+              }}
+              onBlur={e => {
+                (e.target as HTMLInputElement).style.borderColor = "rgba(255,255,255,0.07)";
+                (e.target as HTMLInputElement).style.boxShadow = "none";
+              }}
+            />
+            {searchValue && (
               <button
-                key={color.value}
-                onClick={() => onColorToggle(color.value)}
-                className={cn(
-                  "flex items-center gap-2 px-3 py-1.5 rounded-full text-sm transition-all border",
-                  isSelected
-                    ? "border-primary bg-primary/10 text-primary font-medium"
-                    : "border-border bg-background text-muted-foreground hover:border-primary/40"
-                )}
+                onClick={() => onSearchChange("")}
+                style={{
+                  position: "absolute",
+                  right: "0.8rem",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                  color: "rgba(255,255,255,0.40)",
+                  padding: 0,
+                  display: "flex",
+                }}
               >
-                <span className={cn("w-3.5 h-3.5 rounded-full shrink-0", color.className)} />
-                {color.label}
+                <X style={{ width: "13px", height: "13px" }} />
               </button>
-            );
-          })}
+            )}
+          </div>
         </div>
-      </div>
 
-      {/* Country */}
-      <div>
-        <label className="text-sm font-medium text-foreground mb-2 block">Country</label>
-        <select
-          value={selectedCountry}
-          onChange={(e) => onCountryChange(e.target.value)}
-          className="w-full px-3 py-2.5 rounded-lg bg-background border border-border text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all text-sm appearance-none cursor-pointer"
-        >
-          <option value="">All Countries</option>
-          {countries.map((c) => (
-            <option key={c.value} value={c.value}>
-              {c.label}
-            </option>
-          ))}
-        </select>
+        {/* ── Sort ── */}
+        <div>
+          <FilterLabel>Sort By</FilterLabel>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
+            {SORT_OPTIONS.map(opt => (
+              <FilterPill
+                key={opt.value}
+                active={sortBy === opt.value}
+                onClick={() => onSortChange(opt.value)}
+              >
+                {opt.label}
+              </FilterPill>
+            ))}
+          </div>
+        </div>
+
+        {/* ── Colour chips ── */}
+        <div>
+          <FilterLabel>Colour</FilterLabel>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
+            {COLOR_OPTIONS.map(color => {
+              const isSelected = selectedColors.includes(color.value);
+              return (
+                <FilterPill
+                  key={color.value}
+                  active={isSelected}
+                  onClick={() => onColorToggle(color.value)}
+                >
+                  <span
+                    style={{
+                      width: "10px",
+                      height: "10px",
+                      borderRadius: "50%",
+                      background: color.dot,
+                      flexShrink: 0,
+                      border: (color as any).border ? "1px solid rgba(255,255,255,0.25)" : "none",
+                      boxShadow: isSelected ? `0 0 5px ${color.dot}70` : "none",
+                    }}
+                  />
+                  {color.label}
+                </FilterPill>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* ── Country ── */}
+        {countries.length > 0 && (
+          <div>
+            <FilterLabel>Country</FilterLabel>
+            <div style={{ position: "relative" }}>
+              <select
+                value={selectedCountry}
+                onChange={e => onCountryChange(e.target.value)}
+                style={{
+                  width: "100%",
+                  padding: "0.6rem 2rem 0.6rem 0.85rem",
+                  background: "rgba(14,16,10,0.55)",
+                  backdropFilter: "blur(8px)",
+                  border: "1px solid rgba(255,255,255,0.07)",
+                  borderRadius: "10px",
+                  color: "rgba(232,225,214,0.80)",
+                  fontSize: "0.82rem",
+                  fontFamily: sansUI,
+                  appearance: "none",
+                  cursor: "pointer",
+                  outline: "none",
+                }}
+              >
+                <option value="">All Countries</option>
+                {countries.map(c => (
+                  <option key={c.value} value={c.value}>{c.label}</option>
+                ))}
+              </select>
+              {/* Chevron */}
+              <div
+                style={{
+                  position: "absolute",
+                  right: "0.75rem",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  pointerEvents: "none",
+                  color: "rgba(242,196,141,0.40)",
+                }}
+              >
+                <svg width="11" height="11" viewBox="0 0 12 12" fill="none">
+                  <path d="M2 4L6 8L10 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                </svg>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
