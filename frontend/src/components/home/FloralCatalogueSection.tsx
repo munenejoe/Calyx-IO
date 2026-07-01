@@ -210,7 +210,8 @@ export function FloralCatalogueSection() {
 
   return (
     <section
-      className="relative overflow-hidden"
+    id="catalogue"
+      className="home-section relative"
       style={{ background: "#0d0d0d" }}
     >
       {/* Faint decorative rule */}
@@ -219,11 +220,19 @@ export function FloralCatalogueSection() {
         style={{ background: "rgba(242,196,141,0.06)" }}
       />
 
-      <div className="relative max-w-screen-xl mx-auto px-8 md:px-16 py-28 md:py-40">
+        <div className="home-section-inner relative">
         {/* Header */}
         <div
           ref={ref}
-          className="flex flex-col md:flex-row md:items-end md:justify-between gap-10 mb-20"
+            className="
+            flex
+            flex-col
+            md:flex-row
+            md:items-end
+            md:justify-between
+            gap-10
+            mb-[clamp(2.5rem,5vh,6rem)]
+            "
         >
           <div>
             <motion.p
@@ -275,15 +284,22 @@ export function FloralCatalogueSection() {
             grid-cols-1
             sm:grid-cols-2
             lg:grid-cols-3
-            gap-8
-            max-w-6xl
+            gap-[clamp(1.5rem,2vw,2.5rem)]
+            max-w-[1280px]
             mx-auto
             ">
           {isLoading
             ? Array.from({ length: 6 }).map((_, i) => (
                 <div
                   key={i}
-                  className="h-[320px] rounded bg-white/5 animate-pulse"
+                  className="
+                  h-[320px]
+                  rounded
+                  bg-white/5
+                  animate-pulse
+                  border
+                  border-white/5
+                  "
                 />
               ))
             : data?.items.map((s, i) => (

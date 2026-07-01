@@ -29,28 +29,17 @@ export function GlassPill({
   };
 
   const variantClasses = {
-    default: [
-      "bg-white/5 border border-white/10",
-      "hover:bg-white/10 hover:border-white/20",
-      "text-[#F2C48D]/80 hover:text-[#F2C48D]",
-    ].join(" "),
-    primary: [
-      "bg-[#F2C48D]/10 border border-[#F2C48D]/25",
-      "hover:bg-[#F2C48D]/20 hover:border-[#F2C48D]/40",
-      "text-[#F2C48D]",
-    ].join(" "),
-    nav: [
-      "bg-white/[0.04] border border-white/[0.08]",
-      "hover:bg-white/[0.08] hover:border-white/[0.15]",
-      "text-white/60 hover:text-white/90",
-    ].join(" "),
+    default: "text-white/80",
+    primary: "text-white",
+    nav: "text-white/70",
   };
 
   const baseClasses = cn(
-    "relative rounded-full uppercase font-light cursor-pointer",
-    "backdrop-blur-xl transition-all duration-500",
-    "shadow-[0_0_0_0.5px_rgba(255,255,255,0.05),inset_0_1px_0_rgba(255,255,255,0.08)]",
-    "hover:shadow-[0_0_20px_rgba(242,196,141,0.08),inset_0_1px_0_rgba(255,255,255,0.12)]",
+    "glass-pill",
+    "relative",
+    "inline-flex",
+    "items-center",
+    "justify-center",
     sizeClasses[size],
     variantClasses[variant],
     className
@@ -71,15 +60,20 @@ export function GlassPill({
   }
 
   return (
-    <motion.button
-      onClick={onClick}
-      className={baseClasses}
-      whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
-      transition={{ duration: 0.2 }}
-      {...props}
+  <motion.button
+    onClick={onClick}
+    className={baseClasses}
+    whileHover={{ scale: 1.02 }}
+    whileTap={{ scale: 0.98 }}
+    transition={{ duration: 0.2 }}
+    {...props}
+  >
+
+    <span
+      className="relative z-10"
     >
-      <span className="relative z-10 flex items-center gap-2">{children}</span>
-    </motion.button>
+      {children}
+    </span>
+  </motion.button>
   );
 }

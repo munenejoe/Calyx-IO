@@ -1,12 +1,14 @@
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 // Hero modules
 import { StarfieldBackground } from "@/components/home/StarfieldBackground";
-import { WaterHero } from "@/components/home/WaterHero";
 import { HeroTypography } from "@/components/home/HeroTypography";
 import { HomeNavbar } from "@/components/home/HomeNavbar";
 import { GlassPill } from "@/components/home/GlassPill";
+
+// Homepage Layout System
+import "@/styles/homepage.css"
 
 // Content sections
 import { BloomProcessSection } from "@/components/home/BloomProcessSection";
@@ -17,27 +19,23 @@ import { HomeFooter } from "@/components/home/HomeFooter";
 import { Link } from "react-router-dom";
 
 /* ─────────────────────────────────────────────
-   Hero section — fullscreen cinematic opener
+    Hero section — fullscreen cinematic opener
 ───────────────────────────────────────────── */
 function Hero() {
   // Animation sequence state
   const [phase, setPhase] = useState<
-    "dark" | "stars" | "water" | "type" | "ml" | "cta"
+    "dark" | "stars" | "type" | "ml" | "cta"
   >("dark");
 
   // Scroll state
   const [scrollProgress, setScrollProgress] = useState(0);
-  const [scrollVelocity, setScrollVelocity] = useState(0);
 
   const heroRef = useRef<HTMLDivElement>(null);
-  const lastScrollY = useRef(0);
-  const lastScrollTime = useRef(Date.now());
 
   // Sequence orchestration
   useEffect(() => {
     const sequence = [
       { phase: "stars" as const,  delay: 400  },
-      { phase: "water" as const,  delay: 900  },
       { phase: "type" as const,   delay: 2500 },
       { phase: "ml" as const,     delay: 3300 },
       { phase: "cta" as const,    delay: 3900 },
@@ -55,13 +53,6 @@ function Hero() {
 
     const onScroll = () => {
       const now = Date.now();
-      const dt = Math.max(1, now - lastScrollTime.current);
-      const dy = window.scrollY - lastScrollY.current;
-      const vel = (dy / dt) * 16; // normalize to ~frame
-
-      setScrollVelocity(vel);
-      lastScrollY.current = window.scrollY;
-      lastScrollTime.current = now;
 
       const heroH = hero.offsetHeight;
       const progress = Math.min(1, window.scrollY / heroH);
@@ -69,7 +60,8 @@ function Hero() {
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    return () => 
+      window.removeEventListener("scroll", onScroll);
   }, []);
 
   const typographyVisible = phase === "type" || phase === "ml" || phase === "cta";
@@ -78,13 +70,12 @@ function Hero() {
 
   return (
     <section
-      ref={heroRef}
-      className="relative w-full overflow-hidden"
-      style={{
-        height: "100svh",
-        minHeight: "600px",
-        background: "#0d0d0d",
-      }}
+        className="relative w-full overflow-hidden"
+        style={{
+            height: "100svh",
+            minHeight: "600px",
+            background: "#0d0d0d",
+        }}
     >
       {/* Layer 0 — pure Midnight Ash base (always visible) */}
       <div className="absolute inset-0" style={{ background: "#0d0d0d", zIndex: 0 }} />
@@ -104,25 +95,7 @@ function Hero() {
         )}
       </AnimatePresence>
 
-      {/* Layer 2 — Water / moonlight */}
-      <AnimatePresence>
-        {(phase === "water" || phase === "type" || phase === "ml" || phase === "cta") && (
-          <motion.div
-            className="absolute inset-0"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 2.2 }}
-            style={{ zIndex: 2 }}
-          >
-            <WaterHero
-              scrollVelocity={scrollVelocity}
-              scrollProgress={scrollProgress}
-            />
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Layer 4 — Typography CALYX (above bouquet) */}
+      {/* Layer 2 — Typography */}
       <AnimatePresence>
         {typographyVisible && (
           <motion.div
@@ -141,7 +114,7 @@ function Hero() {
       </AnimatePresence>
 
 
-      {/* Layer 5 — CTA pills */}
+      {/* Layer 3 — CTA pills */}
       <AnimatePresence>
         {ctaVisible && (
           <motion.div
@@ -210,7 +183,7 @@ function Hero() {
 }
 
 /* ─────────────────────────────────────────────
-   Page
+    Page
 ───────────────────────────────────────────── */
 export default function Home() {
   return (
@@ -220,10 +193,12 @@ export default function Home() {
     >
       <HomeNavbar />
       <Hero />
-      <BloomProcessSection />
-      <RecognitionShowcaseSection />
-      <FloralCatalogueSection />
-      <CTASection />
+      <main className="relative">
+          <BloomProcessSection />
+          <RecognitionShowcaseSection />
+          <FloralCatalogueSection />
+          <CTASection />
+      </main>
       <HomeFooter />
     </div>
   );

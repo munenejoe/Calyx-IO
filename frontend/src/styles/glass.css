@@ -1,8 +1,8 @@
 /* ═══════════════════════════════════════════════════════
-   CALYX FLORA — Luxury Botanical Glass System
-   Reusable glassmorphic utility classes
-   Principles: soft blur · subtle transparency · premium shadows ·
-   rounded corners · Golden Oat accents · Evergreen Moss foundations
+    CALYX FLORA — Luxury Botanical Glass System
+    Reusable glassmorphic utility classes
+    Principles: soft blur · subtle transparency · premium shadows ·
+    rounded corners · Golden Oat accents · Evergreen Moss foundations
 ═══════════════════════════════════════════════════════ */
 
 /* ── Base glass surface ── */
@@ -17,22 +17,22 @@
   border-radius: var(--calyx-radius-lg);
 }
 
-/* ── Moss-tinted glass panel (primary card surface) ── */
-.glass-panel {
-  background: linear-gradient(
-    145deg,
-    rgba(10, 12, 6, 0.80) 0%,
-    rgba(14, 17, 9, 0.72) 100%
-  );
-  backdrop-filter: blur(var(--calyx-blur-md));
-  -webkit-backdrop-filter: blur(var(--calyx-blur-md));
-  border: 1px solid var(--calyx-border-golden);
-  box-shadow:
-    var(--calyx-shadow-md),
-    var(--calyx-shadow-inset),
-    var(--calyx-shadow-golden);
-  border-radius: var(--calyx-radius-lg);
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+/* ── Glass panel (primary card surface) ── */
+.glass-panel{
+    backdrop-filter:
+        blur(18px)
+        saturate(160%);
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255,255,255,.045),
+            rgba(255,255,255,.015)
+        );
+
+    border:
+        1px solid rgba(255,255,255,.08);
+
 }
 
 .glass-panel:hover {
@@ -68,18 +68,74 @@
 
 /* ── Pill glass (navigation / tags / badges) ── */
 .glass-pill {
-  background: var(--calyx-golden-08);
-  backdrop-filter: blur(var(--calyx-blur-sm));
-  -webkit-backdrop-filter: blur(var(--calyx-blur-sm));
-  border: 1px solid var(--calyx-border-golden);
-  border-radius: 9999px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2), var(--calyx-shadow-inset);
-  transition: background 0.3s ease, border-color 0.3s ease;
+    position: relative;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+    transition: backdrop-filter .35s ease;
+
+    border: none;
+    border-radius: 999px;
+
+    background: transparent;
+
+    isolation: isolate;
 }
 
-.glass-pill:hover {
-  background: var(--calyx-golden-12);
-  border-color: var(--calyx-border-golden-hover);
+.glass-pill::before{
+    content:"";
+
+    position:absolute;
+    inset:0;
+
+    border-radius:inherit;
+
+    background:rgb(255 255 255 / 8%);
+
+    box-shadow:
+        inset 2px 2px 0 -2px rgba(255,255,255,.7),
+        inset 0 0 3px 1px rgba(255,255,255,.7);
+
+    z-index:1;
+}
+
+.glass-pill::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    border-radius:inherit;
+
+    backdrop-filter:blur(0px);
+    -webkit-backdrop-filter:blur(0px);
+
+    filter:url(#glass-distortion);
+
+    isolation:isolate;
+
+    transition:
+        backdrop-filter .35s ease,
+        -webkit-backdrop-filter .35s ease;
+
+    z-index:0;
+}
+
+.glass-pill:hover{
+  border-color:
+  rgba(255,255,255,.22);
+
+  box-shadow:
+
+  inset 0 1px 0 rgba(255,255,255,.6),
+  0 16px 60px rgba(0,0,0,.35);
+
+}
+
+.glass-pill:hover::after{
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
 }
 
 /* ── Moss pill (secondary tag variant) ── */

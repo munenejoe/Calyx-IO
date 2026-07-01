@@ -10,12 +10,14 @@ import Catalogue from "./pages/Catalogue";
 import FlowerResult from "./pages/FlowerResult";
 import SpeciesDetail from "./pages/SpeciesDetail";
 import NotFound from "./pages/NotFound";
+import { GlassFilter } from "@/components/ui/GlassFilter";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
+      <GlassFilter/>
       <Toaster />
       <Sonner />
       <BrowserRouter>

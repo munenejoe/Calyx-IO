@@ -1,5 +1,4 @@
-import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion } from "framer-motion";
 
 const steps = [
   {
@@ -26,27 +25,29 @@ const steps = [
 ];
 
 function StepItem({
-  step,
-  index,
-}: {
-  step: (typeof steps)[0];
-  index: number;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-15%" });
+    step,
+  }: {
+    step: (typeof steps)[0];
+  }) {
 
   return (
     <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 48 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{
-        duration: 1.1,
-        delay: index * 0.18,
-        ease: [0.16, 1, 0.3, 1],
-      }}
-      className="flex flex-col gap-5"
-    >
+        variants={{
+          hidden: {
+            opacity: 0,
+            y: 20,
+          },
+          show: {
+            opacity: 1,
+            y: 0,
+          },
+        }}
+        transition={{
+          duration: 1.2,
+          ease: [0.16, 1, 0.3, 1],
+        }}
+        className="flex flex-col gap-5"
+      >
       {/* Number + thin rule */}
       <div className="flex items-center gap-5">
         <span
@@ -107,12 +108,10 @@ function StepItem({
 }
 
 export function BloomProcessSection() {
-  const headingRef = useRef<HTMLDivElement>(null);
-  const headingInView = useInView(headingRef, { once: true, margin: "-10%" });
-
   return (
     <section
-      className="relative overflow-hidden"
+      id="process"
+      className="home-section relative"
       style={{ background: "#515932" }}
     >
       {/* Noise texture overlay */}
@@ -125,14 +124,27 @@ export function BloomProcessSection() {
         }}
       />
 
-      <div className="relative max-w-screen-xl mx-auto px-8 md:px-16 py-32 md:py-44">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-20 lg:gap-32 items-start">
+      <div className="home-section-inner relative">
+        <div className="
+            grid
+            grid-cols-1
+            lg:grid-cols-[1fr_2fr]
+            home-gap
+            items-start
+            ">
           {/* Left column — sticky label */}
-          <div ref={headingRef} className="lg:sticky lg:top-32">
+          <div className="lg:sticky lg:top-24">
             <motion.div
-              initial={{ opacity: 0, x: -24 }}
-              animate={headingInView ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{
+                once: true,
+                amount: 0.35,
+              }}
+              transition={{
+                duration: 1.4,
+                ease: [0.16, 1, 0.3, 1],
+              }}
             >
               <p
                 style={{
@@ -146,14 +158,14 @@ export function BloomProcessSection() {
                 Process
               </p>
               <h2
-                style={{
-                  fontFamily: "'Cormorant Garamond', serif",
-                  fontSize: "clamp(2.4rem, 5vw, 4rem)",
-                  fontWeight: 300,
-                  letterSpacing: "0.04em",
-                  color: "rgba(242,196,141,0.92)",
-                  lineHeight: 1.1,
-                }}
+                  className="home-title"
+                  style={{
+                      fontFamily:"'Cormorant Garamond', serif",
+                      fontWeight:300,
+                      letterSpacing:"0.04em",
+                      color:"rgba(242,196,141,0.92)",
+                      lineHeight:1.1,
+                  }}
               >
                 How we
                 <br />
@@ -166,14 +178,12 @@ export function BloomProcessSection() {
               />
 
               <p
-                className="mt-8"
-                style={{
-                  fontSize: "0.8rem",
-                  lineHeight: 1.9,
-                  color: "rgba(255,255,255,0.35)",
-                  maxWidth: "28ch",
-                  letterSpacing: "0.02em",
-                }}
+                  className="home-max-text home-subtitle mt-8"
+                  style={{
+                      lineHeight:1.9,
+                      color:"rgba(255,255,255,.35)",
+                      letterSpacing:"0.02em",
+                  }}
               >
                 Three quiet steps. One accurate result. No botanical expertise
                 required.
@@ -182,11 +192,30 @@ export function BloomProcessSection() {
           </div>
 
           {/* Right column — steps */}
-          <div className="flex flex-col gap-16 lg:gap-20">
-            {steps.map((step, i) => (
-              <StepItem key={step.number} step={step} index={i} />
-            ))}
-          </div>
+          <motion.div
+              className="flex flex-col gap-8 lg:gap-10"
+              initial="hidden"
+              whileInView="show"
+              viewport={{
+                once: true,
+                amount: 0.25,
+              }}
+              variants={{
+                hidden: {},
+                show: {
+                  transition: {
+                    staggerChildren: 0.15,
+                  },
+                },
+              }}
+            >
+              {steps.map((step, i) => (
+                <StepItem 
+                  key={step.number} 
+                  step={step}
+                 />
+                ))}
+            </motion.div>
         </div>
       </div>
 

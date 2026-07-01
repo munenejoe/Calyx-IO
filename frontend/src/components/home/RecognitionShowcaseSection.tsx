@@ -156,8 +156,9 @@ export function RecognitionShowcaseSection() {
 
   return (
     <section
+    id="recognition"
       ref={ref}
-      className="relative overflow-hidden"
+      className="home-section relative"
       style={{ background: "#0d0d0d" }}
     >
       {/* Subtle green tint near top edge from previous section */}
@@ -169,8 +170,7 @@ export function RecognitionShowcaseSection() {
         }}
       />
 
-      <div className="relative max-w-screen-xl mx-auto px-8 md:px-16 py-32 md:py-44">
-        {/* Section label */}
+      <div className="home-section-inner relative">        {/* Section label */}
         <motion.p
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
@@ -186,9 +186,16 @@ export function RecognitionShowcaseSection() {
           Intelligence
         </motion.p>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 lg:gap-16 items-center">
+        <div className="
+            grid
+            grid-cols-1
+            lg:grid-cols-2
+            items-center
+            gap-12
+            lg:gap-[clamp(2rem,4vw,5rem)]
+            ">
           {/* Left: copy */}
-          <div>
+          <div className="max-w-[38rem]">
             <motion.h2
               initial={{ opacity: 0, y: 32 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -228,7 +235,14 @@ export function RecognitionShowcaseSection() {
             </motion.p>
 
             {/* Metrics */}
-            <div className="grid grid-cols-3 gap-6">
+            <div
+                className="
+                grid
+                grid-cols-1
+                sm:grid-cols-3
+                gap-6
+            "
+            >
               {metrics.map((m, i) => (
                 <motion.div
                   key={m.label}
@@ -284,15 +298,20 @@ export function RecognitionShowcaseSection() {
             initial={{ opacity: 0, scale: 0.96 }}
             animate={inView ? { opacity: 1, scale: 1 } : {}}
             transition={{ duration: 1.4, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="relative"
+            className="
+              relative
+              w-full
+              max-w-[680px]
+              mx-auto
+              "
           >
             <div
-              className="relative rounded-2xl overflow-hidden p-10"
+              className="relative rounded-2xl overflow-hidden p-[clamp(1.5rem,3vw,2.5rem)]"
               style={{
                 background:
                   "linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)",
                 border: "1px solid rgba(242,196,141,0.08)",
-                aspectRatio: "1 / 0.8",
+                aspectRatio: "1.1 / 1",
               }}
             >
               {/* Corner accents */}

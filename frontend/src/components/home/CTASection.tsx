@@ -9,13 +9,17 @@ export function CTASection() {
 
   return (
     <section
+      id="identify"
       ref={ref}
       className="relative overflow-hidden"
-      style={{ background: "#0d0d0d" }}
+      style={{ 
+        background: "#0d0d0d",
+        minHeight: "auto",
+      }}
     >
       {/* Decorative horizontal rule */}
       <div
-        className="absolute top-0 left-8 right-8 h-px md:left-16 md:right-16"
+        className="absolute top-0 left-[clamp(1.5rem,4vw,5rem)] right-[clamp(1.5rem,4vw,5rem)]"
         style={{ background: "rgba(242,196,141,0.06)" }}
       />
 
@@ -28,14 +32,18 @@ export function CTASection() {
         }}
       />
 
-      <div className="relative max-w-screen-xl mx-auto px-8 md:px-16 py-36 md:py-52">
-        <div className="max-w-3xl mx-auto text-center">
+        <div className="home-section-inner relative"
+            style={{
+              paddingBlock: "clamp(7rem, 14vh, 12rem)",
+            }}
+        >
+        <div className="max-w-[900px] mx-auto text-center">
           {/* Ornament */}
           <motion.div
             initial={{ opacity: 0, scaleX: 0 }}
             animate={inView ? { opacity: 1, scaleX: 1 } : {}}
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-            className="flex items-center justify-center gap-4 mb-12"
+            className="flex items-center justify-center gap-4 mb-[clamp(2rem,4vh,3rem)]"
           >
             <div
               className="h-px w-16"
@@ -64,7 +72,7 @@ export function CTASection() {
               letterSpacing: "0.04em",
               color: "rgba(242,196,141,0.9)",
               lineHeight: 1.1,
-              marginBottom: "1.8rem",
+              marginBottom: "clamp(1.5rem,3vh,2.5rem)",
             }}
           >
             Identify any flower.
@@ -82,7 +90,7 @@ export function CTASection() {
               lineHeight: 1.9,
               color: "rgba(255,255,255,0.32)",
               maxWidth: "44ch",
-              margin: "0 auto 3.5rem",
+              margin: "0 auto clamp(2rem,5vh,4rem)",
               letterSpacing: "0.02em",
             }}
           >
@@ -95,7 +103,7 @@ export function CTASection() {
             initial={{ opacity: 0, y: 16 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.34 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4"
+            className="flex flex-col sm:flex-row items-center justify-center gap-[clamp(1rem,2vw,2rem)]"
           >
             <Link to="/identify">
               <motion.div

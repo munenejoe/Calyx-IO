@@ -66,7 +66,18 @@ export function StarfieldBackground({ className }: StarfieldBackgroundProps)
       clearTimeout(timer);
   }, []);
 
-  const longFlight = Math.random() < 0.08;
+  const hasWebGL = (() => {
+    try {
+      const canvas = document.createElement("canvas");
+
+      return !!(
+        canvas.getContext("webgl") ||
+        canvas.getContext("experimental-webgl")
+      );
+    } catch {
+      return false;
+    }
+  })();
 
   const shootingStars = useMemo(
     () =>
@@ -117,18 +128,21 @@ export function StarfieldBackground({ className }: StarfieldBackgroundProps)
           overflow: "hidden", 
           zIndex: 0
         }}>
-      <Canvas
-        camera={{
-          position: [0, 0, 5],
-          fov: 75,
-        }}
-        gl={{
-          alpha: true,
-          antialias: false,
-        }}
-      >
-      <TinyStars />
-      </Canvas>
+      {hasWebGL && (
+        <Canvas
+          camera={{
+            position: [1, 1, 5],
+            fov: 75,
+          }}
+          gl={{
+            alpha: true,
+            antialias: false,
+            powerPreference: "high-performance",
+          }}
+        >
+          <TinyStars />
+        </Canvas>
+      )}
 
       <div className="aurora aurora1" />
       <div className="aurora aurora2" />

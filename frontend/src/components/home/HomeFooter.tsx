@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const footerLinks = {
   Explore: [
-    { label: "Home", href: "/" },
+    { label: "Home", href: "/#hero" },
     { label: "Identify", href: "/identify" },
     { label: "Catalogue", href: "/catalogue" },
     { label: "Search", href: "/search" },
@@ -12,15 +12,14 @@ const footerLinks = {
   Intelligence: [
     { label: "How it works", href: "/#process" },
     { label: "Recognition engine", href: "/#recognition" },
-    { label: "Accuracy report", href: "#" },
-    { label: "Research", href: "#" },
+    // { label: "Research", href: "#" },
   ],
-  Company: [
-    { label: "About", href: "#" },
-    { label: "Privacy", href: "#" },
-    { label: "Terms", href: "#" },
-    { label: "Contact", href: "#" },
-  ],
+  // Company: [
+  //   { label: "About", href: "#" },
+  //   { label: "Privacy", href: "#" },
+  //   { label: "Terms", href: "#" },
+  //   { label: "Contact", href: "#" },
+  // ],
 };
 
 const socials = [
@@ -64,6 +63,7 @@ export function HomeFooter() {
 
   return (
     <footer
+    id="footer"
       ref={ref}
       className="relative overflow-hidden"
       style={{ background: "#515932" }}
@@ -85,10 +85,15 @@ export function HomeFooter() {
         }}
       />
 
-      <div className="relative max-w-screen-xl mx-auto px-8 md:px-16">
+      <div className="home-section-inner relative">
         {/* Main footer body */}
-        <div className="pt-20 pb-14">
-          <div className="grid grid-cols-1 md:grid-cols-[1.4fr_1fr_1fr_1fr] gap-12 lg:gap-16">
+        <div
+          style={{
+            paddingTop: "clamp(4rem,7vh,6rem)",
+            paddingBottom: "clamp(3rem,5vh,5rem)",
+          }}
+        >
+          <div className="grid grid-cols-1 md:grid-cols-[1.4fr_1fr_1fr_1fr] gap-[clamp(2rem,4vw,5rem)] lg:gap-16">
             {/* Brand column */}
             <motion.div
               initial={{ opacity: 0, y: 24 }}
@@ -222,7 +227,7 @@ export function HomeFooter() {
 
         {/* Bottom bar */}
         <div
-          className="flex flex-col sm:flex-row items-center justify-between gap-4 py-7"
+          className="flex flex-col sm:flex-row items-center justify-between gap-4 py-[clamp(1.25rem,2.5vh,2rem)]"
           style={{ borderTop: "1px solid rgba(242,196,141,0.1)" }}
         >
           <span

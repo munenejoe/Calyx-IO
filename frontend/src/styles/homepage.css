@@ -1,0 +1,82 @@
+/* ==========================================================
+    HOMEPAGE LAYOUT SYSTEM
+    Shared spacing & sizing for homepage sections
+========================================================== */
+
+/* Every homepage section */
+.home-section{
+
+    min-height:var(--section-min-height);
+
+    display:flex;
+    align-items:center;
+
+    padding:
+        var(--section-padding-y)
+        var(--section-padding-x);
+
+    overflow:hidden;
+}
+
+/* KEEP SECTIONS AT THE SAME SIZE */
+.home-section-inner{
+
+    width:min(
+        100%,
+        var(--section-max-width)
+    );
+
+    margin-inline:auto;
+
+}
+
+/* Shared page width */
+.home-container{
+    width:min(
+        1280px,
+        calc(100vw - 3rem)
+    );
+
+    margin-inline:auto;
+}
+
+/* Responsive vertical spacing */
+.home-padding{
+    padding-block:clamp(
+        3rem,
+        6vh,
+        6rem
+    );
+}
+
+/* Responsive gaps */
+.home-gap{
+    gap:clamp(
+        2rem,
+        4vw,
+        5rem
+    );
+}
+
+/* TITLE */
+.home-title {
+    font-size: clamp(2.4rem, 5vw, 4rem);
+}
+
+/* SUBTITLE */
+.home-subtitle {
+    font-size: clamp(0.75rem, 1vw, 0.95rem);
+}
+
+/* MAX TEXT */
+.home-max-text {
+    max-width: 38ch;
+}
+
+:root{
+    --section-max-width: 1400px;
+    --section-min-height: clamp(680px,90svh,920px);
+    --section-padding-x: clamp(24px,4vw,80px);
+    --section-padding-y: clamp(48px,6vh,96px);
+}
+
