@@ -56,15 +56,30 @@ export interface SearchResult {
   family?: string | null;
 }
 
+export interface SpeciesImage {
+  id: number;
+  image_url: string;
+  thumbnail_url?: string | null;
+  width?: number | null;
+  height?: number | null;
+  image_order: number;
+  source?: string | null;
+  attribution?: string | null;
+  license?: string | null;
+}
+
 export interface SpeciesDetail {
-  id?: string;
+  id: string;
   scientific_name: string;
   common_names: string[];
+
+  family?: string | null;
   description?: string | null;
-  care_tips?: string | null;
-  bloom_season?: string[];
+
   primary_image_url?: string | null;
-  // if you return growing_info etc, add later
+  thumbnail_url?: string | null;
+
+  gallery_images: SpeciesImage[];
 }
 
 export interface CatalogueItem {

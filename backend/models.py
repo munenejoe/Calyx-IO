@@ -71,16 +71,24 @@ class SearchResponse(BaseModel):
     # Optional: Add growing_info for search results
     growing_info: Optional[GrowingInfo] = None
 
+class SpeciesImage(BaseModel):
+    id: int
+    image_url: str
+    thumbnail_url: str | None = None
+    width: int | None = None
+    height: int | None = None
+    image_order: int = 0
+    source: str | None = None
+    attribution: str | None = None
+    license: str | None = None
 
 class SpeciesDetail(BaseModel):
     """Detailed species information"""
-    id: str
+    id: str 
     scientific_name: str
     common_names: List[str]
     family: Optional[str]
     description: Optional[str]
-    care_tips: Optional[str]
-    bloom_season: Optional[List[str]]
     traits: Dict[str, Any] = Field(default_factory=dict)
     @field_validator("traits", mode="before")
     @classmethod
@@ -88,9 +96,8 @@ class SpeciesDetail(BaseModel):
             return v or {}
     primary_image_url: Optional[str]
     thumbnail_url: Optional[str]
-    
-    # NEW: Growing information
-    growing_info: Optional[GrowingInfo] = None
+    gallery_images: List[SpeciesImage] = Field(default_factory=list)
+
     
     created_at: Optional[datetime]
     updated_at: Optional[datetime]

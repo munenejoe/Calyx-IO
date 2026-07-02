@@ -1,7 +1,6 @@
 # backend/database.py
 import os
 from typing import Any, Dict, List, Optional, cast
-from unittest import result
 
 import numpy as np
 from supabase import Client, create_client
@@ -117,17 +116,48 @@ class SupabaseClient:
 
     async def get_species_by_id(self, species_id: str) -> Optional[JSONDict]:
         try:
+            print("\n========== SPECIES REQUEST ==========")
+            print("Species ID:", species_id)
+
+            # Main species record
             result = (
                 self.client.table("species")
                 .select(
-                    "id, scientific_name, common_names, family, "
-                    "description, care_tips, bloom_season, traits, "
-                    "primary_image_url, thumbnail_url, "
-                    "native_region, climate_zones, hardiness_zones, "
-                    "light_requirement, water_needs, soil_preference, "
-                    "ph_range, growing_season, mature_height, "
-                    "mature_spread, growth_rate, "
-                    "created_at, updated_at"
+                    """
+                    id,
+                    scientific_name,
+                    species,
+                    genus,
+                    family,
+                    order_name,
+
+                    common_names,
+                    description,
+
+                    primary_image_url,
+                    thumbnail_url,
+
+                    color_primary,
+                    color_secondary,
+                    petal_shape,
+                    flower_size,
+                    bloom_openness,
+                    petal_count,
+                    petal_shape_outer,
+                    petal_shape_inner,
+                    petal_overlap,
+                    petal_margin,
+                    centre_morphology,
+                    petal_flow,
+                    stamen_visible,
+                    anther_visible,
+                    stigma_visible,
+                    color_text,
+                    color_finish,
+
+                    created_at,
+                    updated_at
+                    """
                 )
                 .eq("id", species_id)
                 .single()
@@ -135,26 +165,85 @@ class SupabaseClient:
             )
 
             data = cast(Optional[JSONDict], result.data)
+
+            print("Species found:", data is not None)
+
             if not data:
                 return None
 
-            data["growing_info"] = {
-                "native_region": data.get("native_region", []),
-                "climate_zones": data.get("climate_zones", []),
-                "hardiness_zones": data.get("hardiness_zones"),
-                "light_requirement": data.get("light_requirement"),
-                "water_needs": data.get("water_needs"),
-                "soil_preference": data.get("soil_preference"),
-                "ph_range": data.get("ph_range"),
-                "growing_season": data.get("growing_season", []),
-                "mature_height": data.get("mature_height"),
-                "mature_spread": data.get("mature_spread"),
-                "growth_rate": data.get("growth_rate"),
+            # ---------------------------------------------------
+            # Gallery images
+            # ---------------------------------------------------
+
+            gallery_result = (
+                self.client.table("species_images")
+                .select(
+                    """
+                    id,
+                    species_id,
+                    image_order,
+                    image_url,
+                    thumbnail_url,
+                    width,
+                    height,
+                    source,
+                    license,
+                    attribution
+                    """
+                )
+                .eq("species_id", species_id)
+                .order("image_order")
+                .execute()
+            )
+
+            gallery_images = cast(List[JSONDict], gallery_result.data or [])
+
+            print(f"Gallery images: {len(gallery_images)}")
+
+            for img in gallery_images:
+                print(
+                    f"[{img.get('image_order')}] "
+                    f"{img.get('species_id')} "
+                    f"{img.get('image_url')}"
+                )
+
+            data["gallery_images"] = gallery_images
+            
+            data["taxonomy"] = {
+                "order": data.get("order_name"),
+                "family": data.get("family"),
+                "genus": data.get("genus"),
+                "species": data.get("species"),
+                "scientific_name": data.get("scientific_name"),
+            }
+            
+            data["traits"] = {
+                "color_primary": data.get("color_primary"),
+                "color_secondary": data.get("color_secondary"),
+                "flower_size": data.get("flower_size"),
+                "petal_count": data.get("petal_count"),
+                "petal_shape": data.get("petal_shape"),
+                "petal_shape_outer": data.get("petal_shape_outer"),
+                "petal_shape_inner": data.get("petal_shape_inner"),
+                "petal_overlap": data.get("petal_overlap"),
+                "petal_margin": data.get("petal_margin"),
+                "petal_flow": data.get("petal_flow"),
+                "centre_morphology": data.get("centre_morphology"),
+                "stamen_visible": data.get("stamen_visible"),
+                "anther_visible": data.get("anther_visible"),
+                "stigma_visible": data.get("stigma_visible"),
+                "bloom_openness": data.get("bloom_openness"),
+                "color_finish": data.get("color_finish"),
+                "color_text": data.get("color_text"),
             }
 
+            print("=====================================\n")
+
             return data
+
         except Exception as e:
-            print(f"Error getting species by ID: {e}")
+            print("ERROR IN get_species_by_id")
+            print(repr(e))
             return None
 
     async def get_cached_identification(self, image_hash: str) -> Optional[JSONDict]:

@@ -1,5 +1,4 @@
 # backend/repositories/species_repository.py
-
 import os
 from typing import Any, Dict, List, Optional, cast
 
@@ -133,19 +132,47 @@ class SupabaseClient:
             return []
 
     async def get_species_by_id(self, species_id: str) -> Optional[JSONDict]:
+        print(">>> INSIDE get_species_by_id <<<")
         try:
             result = (
                 self.client.table("species")
                 .select(
-                    "id, scientific_name, common_names, family, "
-                    "description, care_tips, bloom_season, traits, "
-                    "primary_image_url, thumbnail_url, "
-                    "native_region, climate_zones, hardiness_zones, "
-                    "light_requirement, water_needs, soil_preference, "
-                    "ph_range, growing_season, mature_height, "
-                    "mature_spread, growth_rate, "
-                    "created_at, updated_at"
-                )
+                        """
+                        id,
+                        scientific_name,
+                        species,
+                        genus,
+                        family,
+                        order_name,
+
+                        common_names,
+                        description,
+
+                        primary_image_url,
+                        thumbnail_url,
+
+                        color_primary,
+                        color_secondary,
+                        petal_shape,
+                        flower_size,
+                        bloom_openness,
+                        petal_count,
+                        petal_shape_outer,
+                        petal_shape_inner,
+                        petal_overlap,
+                        petal_margin,
+                        centre_morphology,
+                        petal_flow,
+                        stamen_visible,
+                        anther_visible,
+                        stigma_visible,
+                        color_text,
+                        color_finish,
+
+                        created_at,
+                        updated_at
+                        """
+                    )
                 .eq("id", species_id)
                 .single()
                 .execute()
@@ -154,20 +181,45 @@ class SupabaseClient:
             data = cast(Optional[JSONDict], result.data)
             if not data:
                 return None
+            
+            # Fetch gallery images
+            gallery_result = (
+                self.client.table("species_images")
+                .select(
+                    "id, image_url, thumbnail_url, width, height, "
+                    "image_order, source, license, attribution"
+                )
+                .eq("species_id", species_id)
+                .order("image_order")
+                .execute()
+            )
 
-            data["growing_info"] = {
-                "native_region": data.get("native_region", []),
-                "climate_zones": data.get("climate_zones", []),
-                "hardiness_zones": data.get("hardiness_zones"),
-                "light_requirement": data.get("light_requirement"),
-                "water_needs": data.get("water_needs"),
-                "soil_preference": data.get("soil_preference"),
-                "ph_range": data.get("ph_range"),
-                "growing_season": data.get("growing_season", []),
-                "mature_height": data.get("mature_height"),
-                "mature_spread": data.get("mature_spread"),
-                "growth_rate": data.get("growth_rate"),
-            }
+            gallery_images = cast(List[JSONDict], gallery_result.data or [])
+
+            # Fetch gallery images
+            print("\n========== GALLERY DEBUG ==========")
+            print("Species ID:", species_id)
+
+            gallery_result = (
+                self.client.table("species_images")
+                .select("*")
+                .eq("species_id", species_id)
+                .order("image_order")
+                .execute()
+            )
+
+            print("Returned rows:", len(gallery_result.data or []))
+
+            for row in (gallery_result.data or []):
+                print(row)
+
+            print("===================================\n")
+
+            gallery_images = cast(List[JSONDict], gallery_result.data or [])
+            data["gallery_images"] = gallery_images
+    
+            data["gallery_images"] = gallery_images
+            
 
             return data
         except Exception as e:
@@ -330,6 +382,8 @@ class SupabaseClient:
         try:
             result = self.client.table("species").select("search_count").eq("id", species_id).single().execute()
             data = cast(Optional[JSONDict], result.data)
+            print("Species fetched:", data)
+            
             if not data:
                 return
 
