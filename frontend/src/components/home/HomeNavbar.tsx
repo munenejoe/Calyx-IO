@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
-import { GlassPill } from "./GlassPill";
+import { GlassPill } from "../ui/GlassPill";
+import { useNavbarVisibility } from "@/hooks/useNavbarVisibility";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -14,22 +15,32 @@ const navLinks = [
 export function HomeNavbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const showNavbar = useNavbarVisibility();
   const location = useLocation();
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   return (
     <>
       {/* Desktop: floating pill nav */}
       <motion.header
         className="fixed top-0 left-0 right-0 z-50 hidden md:flex justify-center pt-10"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+        initial="visible"
+        animate={showNavbar ? "visible" : "hidden"}
+        variants={{
+          visible: {
+            opacity: 1,
+            y: 0,
+          },
+          hidden: {
+            opacity: 0,
+            y: -70,
+          },
+        }}
+        transition={{
+          type: "tween",
+          duration: 0.45,
+          ease: "easeOut",
+        }}
       >
         <div
           className="flex items-center justify-between w-[840px] max-w-[90vw] px-8 py-2 rounded-full transition-all duration-500"

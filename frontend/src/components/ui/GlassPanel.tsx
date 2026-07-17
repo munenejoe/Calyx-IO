@@ -1,4 +1,5 @@
 import React, { ElementType } from "react";
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 type GlassPanelVariant = "default" | "subtle" | "float" | "error";
@@ -13,23 +14,18 @@ interface GlassPanelProps {
 
 const variantClass: Record<GlassPanelVariant, string> = {
   default: "glass-panel",
-  subtle:  "glass-panel-subtle",
-  float:   "glass-float",
-  error:   "glass-error",
+  subtle: "glass-panel opacity-80",
+  float: "glass-panel glass-panel-float",
+  error: "glass-panel glass-panel-error",
 };
 
 const paddingClass = {
   none: "",
-  sm:   "p-4",
-  md:   "p-5 md:p-6",
-  lg:   "p-6 md:p-8",
+  sm: "p-4",
+  md: "p-5 md:p-6",
+  lg: "p-6 md:p-8",
 };
 
-/**
- * GlassPanel — Luxury botanical glass surface.
- * The workhorse container for all non-home page content.
- * Use variant="subtle" for sidebars and secondary surfaces.
- */
 export function GlassPanel({
   children,
   variant = "default",
@@ -37,28 +33,45 @@ export function GlassPanel({
   padding = "md",
   as: Tag = "div",
 }: GlassPanelProps) {
+
+  const MotionTag = motion.create(Tag);
+
   return (
-    <Tag
+    <MotionTag
       className={cn(
+        "relative overflow-hidden",
         variantClass[variant],
         paddingClass[padding],
         className
       )}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.35 }}
     >
-      {children}
-    </Tag>
+      <div className="glass-panel-highlight" />
+      <div className="glass-panel-edge" />
+
+      <div className="relative z-10">
+        {children}
+      </div>
+    </MotionTag>
   );
 }
 
 /** Thin horizontal rule with a Golden Oat gradient */
-export function GlassDivider({ 
-  className, 
-  style 
-}: { 
-  className?: string; 
-  style?: React.CSSProperties 
+export function GlassDivider({
+  className,
+  style,
+}: {
+  className?: string;
+  style?: React.CSSProperties;
 }) {
-  return <hr className={cn("glass-divider", className)} style={style} />;
+  return (
+    <hr
+      className={cn("glass-divider", className)}
+      style={style}
+    />
+  );
 }
 
 /** Section label with small Golden Oat accent line above */

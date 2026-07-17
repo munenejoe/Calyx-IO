@@ -2,15 +2,16 @@ import React from "react";
 import { HomeNavbar } from "@/components/home/HomeNavbar";
 import { cn } from "@/lib/utils";
 
+import { NavbarVisibilityProvider,} from "@/context/NavbarVisibilityContext";
+
 interface AppShellProps {
-  children: React.ReactNode;
-  /** Extra classes applied to the outer page wrapper */
-  className?: string;
-  /**
-   * When true the page background uses the CALYX Evergreen Moss palette via
-   * .calyx-page.  Set false only if the page supplies its own full background.
-   */
-  withBackground?: boolean;
+    children: React.ReactNode;
+    className?: string;
+    withBackground?: boolean;
+
+    navbarOptions?: {
+        alwaysVisibleAtTop?: boolean;
+    };
 }
 
 /**
@@ -23,19 +24,24 @@ interface AppShellProps {
  * • Exports PageContent and PageHeader as named exports
  */
 export function AppShell({
-  children,
-  className,
-  withBackground = true,
-}: AppShellProps) {
+    children,
+    className,
+    withBackground = true,
+    navbarOptions,
+}: AppShellProps)
+{
   return (
-    <div
-      className={cn(withBackground && "calyx-page", className)}
-      style={!withBackground ? { minHeight: "100dvh" } : undefined}
+    <NavbarVisibilityProvider
+        options={navbarOptions}
     >
-      {/* Shared luxury nav — identical to homepage */}
-      <HomeNavbar />
-      {children}
-    </div>
+        <div
+            className={cn(withBackground && "calyx-page", className)}
+            style={!withBackground ? { minHeight: "100dvh" } : undefined}
+        >
+            <HomeNavbar />
+            {children}
+        </div>
+    </NavbarVisibilityProvider>
   );
 }
 
@@ -91,7 +97,7 @@ export function PageHeader({
     <header className={cn("text-center mb-10 md:mb-14 calyx-fade-in", className)}>
       {eyebrow && (
         <div
-          className="inline-flex items-center gap-2 glass-pill mb-4"
+          className="mb-4"
           style={{
             padding: "0.3rem 1rem",
             fontSize: "0.65rem",
@@ -119,8 +125,6 @@ export function PageHeader({
       >
         {title}
       </h1>
-      color: #863A18;
-
       {subtitle && (
         <p
           style={{

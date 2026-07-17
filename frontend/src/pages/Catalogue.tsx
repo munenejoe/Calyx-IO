@@ -24,6 +24,7 @@ import { CataloguePagination } from "@/components/catalogue/CataloguePagination"
 import { useCatalogueParams } from "@/hooks/useCatalogueParams";
 import { useDebounce } from "@/hooks/useDebounce";
 import { getCatalogue, getCatalogueFilters } from "@/lib/api";
+import { GlassPill } from "@/components/ui/GlassPill";
 
 
 export default function Catalogue() {
@@ -107,7 +108,30 @@ export default function Catalogue() {
 
         {/* ── Page header ── */}
         <PageHeader
-          eyebrow={<><Flower2 style={{ width: "13px", height: "13px" }} /> Botanical Archive</>}
+          eyebrow={
+            <GlassPill
+              as="div"
+              size="xs"
+              className="mb-4"
+            >
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "0.45rem",
+                  fontSize: "0.65rem",
+                  letterSpacing: "0.2em",
+                  textTransform: "uppercase",
+                  fontFamily: "'Inter', sans-serif",
+                  fontWeight: 500,
+                  color: "var(--calyx-golden-oat)",
+                }}
+              >
+                <Flower2 style={{ width: "13px", height: "13px" }} />
+                Botanical Archive
+              </div>
+            </GlassPill>
+          }
           title="Flower Catalogue"
           subtitle={
             data

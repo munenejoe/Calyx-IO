@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { StarfieldBackground } from "@/components/home/StarfieldBackground";
 import { HeroTypography } from "@/components/home/HeroTypography";
 import { HomeNavbar } from "@/components/home/HomeNavbar";
-import { GlassPill } from "@/components/home/GlassPill";
+import { GlassPill } from "@/components/ui/GlassPill";
 
 // Homepage Layout System
 import "@/styles/homepage.css"

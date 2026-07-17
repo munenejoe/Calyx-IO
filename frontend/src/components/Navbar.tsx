@@ -3,9 +3,17 @@ import { Flower2, Search, Camera, Menu, X, BookOpen } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 
+import { useSharedNavbarVisibility } from "@/context/NavbarVisibilityContext";
+
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   const location = useLocation();
+
+  const isSpeciesDetail =
+      location.pathname.startsWith("/species/");
+
+  const showNavbar = useSharedNavbarVisibility();
 
   const links = [
     { href: "/", label: "Home", icon: Flower2 },
@@ -20,7 +28,14 @@ export function Navbar() {
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 glass">
+    <nav
+        className={cn(
+            "fixed top-0 left-0 right-0 z-50 glass transition-transform duration-500",
+            showNavbar
+                ? "translate-y-0"
+                : "-translate-y-full"
+        )}
+    >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}

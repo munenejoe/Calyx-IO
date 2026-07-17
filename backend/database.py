@@ -376,9 +376,20 @@ class SupabaseClient:
             query = self.client.table("species").select(
                 "id, scientific_name, common_names, family, traits, "
                 "primary_image_url, thumbnail_url, bloom_season, "
-                "native_region, search_count, created_at",
+                "native_region, search_count, created_at, has_images",
                 count=cast(Any, "exact"),
             )
+            
+            query = query.eq("has_images", True)
+            
+            query = self.client.table("species").select(
+                "id, scientific_name, common_names, family, traits, "
+                "primary_image_url, thumbnail_url, bloom_season, "
+                "native_region, search_count, created_at, has_images",
+                count=cast(Any, "exact"),
+            )
+
+            query = query.eq("has_images", True)
 
             if name_filter:
                 query = query.or_(
@@ -394,14 +405,55 @@ class SupabaseClient:
                 query = query.contains("traits", {"color_primary": [color_filter[0]]})
 
             if sort_by == "popularity":
-                query = query.order("search_count", desc=True)
+                query = (
+                    query
+                    .order("search_count", desc=True)
+                    .order("scientific_name")
+                )
+
             elif sort_by == "recent":
-                query = query.order("created_at", desc=True)
+                query = (
+                    query
+                    .order("created_at", desc=True)
+                    .order("scientific_name")
+                )
+
             else:
-                query = query.order("scientific_name", desc=False)
+                query = query.order("scientific_name")
 
             result = query.range(offset, offset + limit - 1).execute()
             items = cast(List[JSONDict], result.data or [])
+            
+            species_ids = [item["id"] for item in items]
+
+            if species_ids:
+                images_result = (
+                    self.client.table("species_images")
+                    .select("species_id, image_url, thumbnail_url, image_order")
+                    .in_("species_id", species_ids)
+                    .order("image_order")
+                    .execute()
+                )
+
+                images = cast(List[JSONDict], images_result.data or [])
+
+                image_lookup: Dict[str, JSONDict] = {}
+
+                for image in images:
+                    sid = image["species_id"]
+
+                    if sid not in image_lookup:
+                        image_lookup[sid] = image
+
+                for item in items:
+                    if item.get("primary_image_url"):
+                        continue
+
+                    fallback = image_lookup.get(item["id"])
+
+                    if fallback:
+                        item["primary_image_url"] = fallback.get("image_url")
+                        item["thumbnail_url"] = fallback.get("thumbnail_url")
 
             if multi_color:
                 wanted = set(color_filter or [])

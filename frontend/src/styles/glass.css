@@ -19,9 +19,13 @@
 
 /* ── Glass panel (primary card surface) ── */
 .glass-panel{
-    backdrop-filter:
-        blur(18px)
-        saturate(160%);
+    position: relative;
+
+    overflow: hidden;
+
+    isolation: isolate;
+
+    border-radius: var(--calyx-radius-lg);
 
     background:
         linear-gradient(
@@ -30,9 +34,62 @@
             rgba(255,255,255,.015)
         );
 
-    border:
-        1px solid rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.08);
 
+    backdrop-filter:
+        blur(18px)
+        saturate(160%);
+
+    -webkit-backdrop-filter:
+        blur(18px)
+        saturate(160%);
+
+    /* filter:url(#glass-distortion); */
+
+    box-shadow:
+        var(--calyx-shadow-md),
+        var(--calyx-shadow-inset);
+
+    transition:
+        border-color .35s ease,
+        box-shadow .35s ease;
+}
+
+.glass-panel-highlight{
+    position:absolute;
+
+    inset:0;
+
+    pointer-events:none;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255,255,255,.16) 0%,
+            rgba(255,255,255,.05) 18%,
+            transparent 40%
+        );
+
+    opacity:.55;
+
+    z-index:1;
+}
+
+.glass-panel-edge{
+
+    position:absolute;
+
+    inset:0;
+
+    pointer-events:none;
+
+    border-radius:inherit;
+
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.30),
+        inset 0 0 0 1px rgba(255,255,255,.05);
+
+    z-index:2;
 }
 
 .glass-panel:hover {
@@ -293,4 +350,57 @@
   background: rgba(134, 58, 24, 0.10);
   border: 1px solid rgba(134, 58, 24, 0.25);
   border-radius: var(--calyx-radius-lg);
+}
+
+.species-info-layout{
+
+    display:grid;
+
+    grid-template-columns:minmax(320px,30%) 1fr;
+
+    gap:1rem;
+
+    align-items:stretch;
+
+    width:100%;
+
+}
+
+.species-panel{
+
+    display:flex;
+}
+
+@media (max-width:1023px){
+
+    .species-info-layout{
+
+        grid-template-columns:1fr;
+
+    }
+
+}
+
+.species-back-pill{
+    position:fixed;
+
+    top:1rem;
+
+    left:2rem;
+
+    z-index:120;
+
+    text-decoration:none;
+}
+
+@media (max-width:1023px){
+
+    .species-back-pill{
+
+        left:1rem;
+
+        top:1rem;
+
+    }
+
 }

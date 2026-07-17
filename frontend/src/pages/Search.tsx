@@ -11,7 +11,7 @@ import { useDebounce } from "@/hooks/useDebounce";
 import { searchFlowers, type SearchResult } from "@/lib/api";
 import { AppShell, PageContent, PageHeader } from "@/components/layout/AppShell";
 import { GlassPanel } from "@/components/ui/GlassPanel";
-
+import { GlassPill } from "@/components/ui/GlassPill";
 
 // Colors from CALYX design tokens for inline styles in this file
 const COLORS = {
@@ -245,10 +245,27 @@ export default function Search() {
         {/* ── Header ── */}
         <PageHeader
           eyebrow={
-            <>
-              <SearchIcon style={{ width: "13px", height: "13px" }} />
-              Botanical Search
-            </>
+            <GlassPill
+              as="div"
+              size="xs"
+            >
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "0.45rem",
+                  fontSize: "0.65rem",
+                  letterSpacing: "0.2em",
+                  textTransform: "uppercase",
+                  fontFamily: "'Inter', sans-serif",
+                  fontWeight: 500,
+                  color: "var(--calyx-golden-oat)",
+                }}
+              >
+                <SearchIcon style={{ width: "13px", height: "13px" }} />
+                Botanical Search
+              </div>
+            </GlassPill>
           }
           title="Search Flowers"
           subtitle="Explore by common name, scientific name, or description."

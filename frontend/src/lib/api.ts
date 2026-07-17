@@ -70,10 +70,23 @@ export interface SpeciesImage {
 
 export interface SpeciesDetail {
   id: string;
+
   scientific_name: string;
   common_names: string[];
 
   family?: string | null;
+  genus?: string | null;
+  order_name?: string | null;
+  species?: string | null;
+
+  taxonomy?: {
+    family?: string | null;
+    order?: string | null;
+    genus?: string | null;
+    species?: string | null;
+    scientific_name?: string | null;
+  };
+
   description?: string | null;
 
   primary_image_url?: string | null;

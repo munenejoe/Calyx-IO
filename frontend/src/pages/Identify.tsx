@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Upload, Leaf, X, Loader2, Microscope, Sparkles } from "lucide-react";
 import { HomeNavbar } from "@/components/home/HomeNavbar";
-import { GlassPill } from "@/components/home/GlassPill";
+import { GlassPill } from "@/components/ui/GlassPill";
 import { identifyFlower } from "@/lib/api";
 
 // ─── Calyx colour tokens ───────────────────────────────────────────────────

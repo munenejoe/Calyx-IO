@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { Link } from "react-router-dom";
-import { GlassPill } from "./GlassPill";
+import { GlassPill } from "../ui/GlassPill";
 
 export function CTASection() {
   const ref = useRef<HTMLDivElement>(null);

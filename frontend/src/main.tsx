@@ -10,8 +10,7 @@ import { GlassFilter } from "@/components/ui/GlassFilter";
 if (import.meta.env.DEV) {
   import("react-scan").then(({ scan }) => {
     scan({
-      enabled: true,
-      showToolbar: true,
+      enabled: false,
     });
   });
 }

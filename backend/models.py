@@ -81,6 +81,13 @@ class SpeciesImage(BaseModel):
     source: str | None = None
     attribution: str | None = None
     license: str | None = None
+    
+class Taxonomy(BaseModel):
+    family: str | None = None
+    order: str | None = None
+    genus: str | None = None
+    species: str | None = None
+    scientific_name: str | None = None
 
 class SpeciesDetail(BaseModel):
     """Detailed species information"""
@@ -89,6 +96,7 @@ class SpeciesDetail(BaseModel):
     common_names: List[str]
     family: Optional[str]
     description: Optional[str]
+    taxonomy: Taxonomy | None = None
     traits: Dict[str, Any] = Field(default_factory=dict)
     @field_validator("traits", mode="before")
     @classmethod

@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { motion, useInView } from "framer-motion";
 import { Link } from "react-router-dom";
-import { GlassPill } from "./GlassPill";
+import { GlassPill } from "../ui/GlassPill";
 import { getCatalogue, type CatalogueItem } from "@/lib/api";
 
 function SpecimenCard({
