@@ -46,6 +46,10 @@ export default function SpeciesDetail() {
     try {
       const data = await getSpeciesDetail(speciesId);
       console.log("Species", data);
+      console.log({
+          gallery_images: data.gallery_images,
+          common_names: data.common_names,
+      });
       setSpecies(data);
     } catch (err) {
       setError("Unable to load species details. Please try again.");
