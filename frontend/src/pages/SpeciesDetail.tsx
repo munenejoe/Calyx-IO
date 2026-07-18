@@ -45,6 +45,7 @@ export default function SpeciesDetail() {
     setError(null);
     try {
       const data = await getSpeciesDetail(speciesId);
+      console.log("Species", data);
       setSpecies(data);
     } catch (err) {
       setError("Unable to load species details. Please try again.");
