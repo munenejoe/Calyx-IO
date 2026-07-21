@@ -30,12 +30,13 @@ export default function SpeciesGallery({
     const [imageMeta, setImageMeta] =
         useState<Record<number, ImageMeta>>({});
 
-    const galleryImages =
-        species.gallery_images.length > 0
-            ? species.gallery_images.map(img => img.image_url)
-            : species.primary_image_url
-            ? [species.primary_image_url]
-            : [];
+    const galleryImages = Array.isArray(species.gallery_images)
+    ? species.gallery_images
+        .map(img => img?.image_url)
+        .filter(Boolean)
+    : species.primary_image_url
+        ? [species.primary_image_url]
+        : [];;
 
     useEffect(() => {
 

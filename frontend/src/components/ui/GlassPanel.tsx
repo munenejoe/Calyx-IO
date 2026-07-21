@@ -10,6 +10,7 @@ interface GlassPanelProps {
   className?: string;
   padding?: "none" | "sm" | "md" | "lg";
   as?: ElementType;
+  style?: React.CSSProperties;
 }
 
 const variantClass: Record<GlassPanelVariant, string> = {

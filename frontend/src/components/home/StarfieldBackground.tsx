@@ -2,6 +2,7 @@ import { useMemo, useState, useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
 import * as THREE from "three";
 import "../../styles/aurora.css";
+import { useViewport } from "@/hooks/use-mobile";
 
 function TinyStars() {
   const positions = useMemo(() => {
@@ -52,6 +53,15 @@ interface StarfieldBackgroundProps {
 
 export function StarfieldBackground({ className }: StarfieldBackgroundProps) 
 { 
+  const { isMobile, isTablet } = useViewport();
+
+  const starCount =
+  isMobile
+    ? 4
+    : isTablet
+    ? 6
+    : 10;
+
   const [showShooting, setShowShooting] =
     useState(false);
     useEffect(() => 
@@ -79,9 +89,21 @@ export function StarfieldBackground({ className }: StarfieldBackgroundProps)
     }
   })();
 
+  const top = isMobile
+    ? `${Math.random() * 55}%`
+    : isTablet
+    ? `${Math.random() * 45}%`
+    : `${-20 - Math.random() * 25}%`; // NEVER CHANGE
+
+  const left = isMobile
+    ? `${95 + Math.random() * 5}%`
+    : isTablet
+    ? `${98 + Math.random() * 6}%`
+    : `${100 + Math.random() * 20}%`; // NEVER CHANGE
+
   const shootingStars = useMemo(
     () =>
-      Array.from({ length: 10 }, () => {
+      Array.from({ length: starCount }, () => {
         const type =
           Math.random() < 0.45
             ? "white"
@@ -90,31 +112,31 @@ export function StarfieldBackground({ className }: StarfieldBackgroundProps)
             : "orange";
 
         return {
-          top: `${-20 - Math.random() * 25}%`,
-          left: `${100 + Math.random() * 20}%`,
+  top,
+  left,
 
-          length: 120 + Math.random() * 120,
-          delay: `${Math.random() * 5}s`,
-          duration: 5 + Math.random() * 8,
-          thickness: 2 + Math.random() * 2,
-          brightness: 0.35 + Math.random() * 0.65,
+  length: 120 + Math.random() * 120,
+  delay: `${Math.random() * 5}s`,
+  duration: 5 + Math.random() * 8,
+  thickness: 2 + Math.random() * 2,
+  brightness: 0.35 + Math.random() * 0.65,
 
-          dx: -1200 - Math.random() * 400,
-          dy: 700 + Math.random() * 300,
+  dx: -1200 - Math.random() * 400,
+  dy: 700 + Math.random() * 300,
 
-          angle: "155deg",
+  angle: "155deg",
 
-          type,
+  type,
 
-          smoke:
-            type === "orange"
-              ? 0.7 + Math.random() * 0.3
-              : type === "blue"
-              ? 0.35 + Math.random() * 0.35
-              : 0.15 + Math.random() * 0.2,
+  smoke:
+    type === "orange"
+      ? 0.7 + Math.random() * 0.3
+      : type === "blue"
+      ? 0.35 + Math.random() * 0.35
+      : 0.15 + Math.random() * 0.2,
 
-          leavesTrail: Math.random() < 0.4
-        };
+  leavesTrail: Math.random() < 0.4,
+};
       }),
     []
   );
