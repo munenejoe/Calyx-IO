@@ -1,6 +1,6 @@
 import os
 
-from fastapi import FastAPI, Request
+from fastapi import Depends, FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
@@ -20,6 +20,7 @@ from backend.api.routes import (
 
 from backend.config import settings
 from backend.main_state import vision
+from backend.auth import require_api_key
 
 
 # 🔥 CREATE APP
@@ -73,11 +74,16 @@ async def startup_event():
 
 # 🔥 ROUTERS
 app.include_router(health.router)
-app.include_router(identify.router, prefix="/api/v1")
-app.include_router(search.router, prefix="/api/v1")
-app.include_router(species.router, prefix="/api/v1")
-app.include_router(catalogue.router, prefix="/api/v1")
-app.include_router(feedback.router, prefix="/api/v1")
+protected_router_options = {
+    "prefix": "/api/v1",
+    "dependencies": [Depends(require_api_key)],
+}
+
+app.include_router(identify.router, **protected_router_options)
+app.include_router(search.router, **protected_router_options)
+app.include_router(species.router, **protected_router_options)
+app.include_router(catalogue.router, **protected_router_options)
+app.include_router(feedback.router, **protected_router_options)
 
 
 # 🔥 GLOBAL ERROR HANDLER
