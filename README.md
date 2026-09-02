@@ -20,7 +20,7 @@ The long-term direction of Calyx Flora is to become a complete intelligent botan
 
 ## Current System
 
-Based on the technical review (2026-07-29), the current implementation consists of:
+Current build version (2026-07-29) consists of:
 - A React/Vite single-page application (TypeScript) for the frontend
 - A FastAPI backend backed by Supabase (PostgreSQL)
 - An image-identification pipeline combining local image processing and Hugging Face inference
@@ -177,9 +177,9 @@ Contributions are welcome to improve the platform's foundation and advance the b
 
 ## Contact
 
-- **Website**: [calyx.io](https://calyxflowers.io) - *(coming soon)*
+- **Website**: [calyx.io](https://calyxflora.space) - It's HERE*
 - **Email**: mmuniiin@gmail.com
-- **Twitter**: [@CalyxApp](https://twitter.com/CalyxIO)
+- **Twitter**: [@CalyxApp](https://twitter.com/_munenejoe)
 
 ## Project
 
