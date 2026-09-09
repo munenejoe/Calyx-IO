@@ -132,7 +132,31 @@ export default function UnderConstructionPage() {
       <div className="ucp-bg" aria-hidden="true" />
 
       <header className="ucp-topbar">
-        <span className="ucp-wordmark">CALYX FLORA</span>
+            <a href="/" className="ucp-wordmark" aria-label="Return to Calyx Flora home">
+      <svg
+        className="ucp-home-icon"
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+      >
+        <path
+          d="M3 10.5L12 3l9 7.5"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.8"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M5.5 9.5V21h13V9.5M9.5 21v-6h5v6"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.8"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+      <span>CALYX FLORA</span>
+    </a>
         <div className="ucp-capsule">
           <span className="ucp-dot" aria-hidden="true" />
           <span>LOADING &mdash; UNDER CONSTRUCTION</span>
@@ -250,10 +274,25 @@ const CSS = `
 .ucp-revealed .ucp-topbar { opacity: 1; transform: translateY(0); }
 
 .ucp-wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
   font-size: 13px;
   letter-spacing: 0.14em;
   font-weight: 600;
   color: var(--rustwood);
+  text-decoration: none;
+  transition: opacity 0.25s ease;
+}
+
+.ucp-wordmark:hover {
+  opacity: 0.7;
+}
+
+.ucp-home-icon {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
 }
 
 .ucp-capsule {
